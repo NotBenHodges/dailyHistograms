@@ -23,10 +23,10 @@ var drawHistogram = function(d,daynumber){
 
   // console.log(d[0].quizes[0].grade)
 
-  d.map(function(element){
-    console.log(element.quizes[0].grade)
-    return(element.quizes[0].grade)
-  })
+  // d.map(function(element){
+  //   console.log(element.quizes[0].grade)
+  //   return(element.quizes[0].grade)
+  // })
 
   var width = 800;
   var height = 600;
@@ -35,7 +35,7 @@ var drawHistogram = function(d,daynumber){
               .attr("width",width)
               .attr("height",height);
 
-  var barWidth = 30;
+  var barWidth = width / 23;
 
   svg.selectAll("rect")
      .data(d)
@@ -44,14 +44,14 @@ var drawHistogram = function(d,daynumber){
      .attr("x", function(d,i){
        return i * barWidth;
      })
-     .attr("y", d.map(function(element){
-       return height - (element.quizes[0].grade * (height/10));
+     .attr("y", function(d){
+       return height - (d.quizes[0].grade * (height/10));
+     })
+     .attr("height", (function(d){
+       return d.quizes[0].grade * (height/10);
      }))
-     .attr("width",barWidth)
-     .attr("height",d.map(function(element){
-       return element.quizes[0].grade * (height/10);
-     }))
-     .attr("fill",blue);
+     .attr("width", barWidth)
+     .attr("fill","blue");
 
 
 }
