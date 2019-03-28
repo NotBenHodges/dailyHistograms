@@ -1,5 +1,12 @@
 var gradesP = d3.json("classData.json")
 
+var width = 800;
+var height = 600;
+
+var svg = d3.select("svg")
+            .attr("width",width)
+            .attr("height",height);
+
 gradesP.then(function(data){
   //console.log(data);
   drawHistogram(data,0);
@@ -9,10 +16,10 @@ var buttonUpdate = function(d,daynumber){
   console.log(d);
 
   d3.select(".n").on("click",function(e){
-    drawHistogram(d,daynumber+1);
+    updateHistogram(d,daynumber+1);
   })
   d3.select(".p").on("click",function(e){
-    drawHistogram(d,daynumber-1);
+    updateHistogram(d,daynumber-1);
   })
 }
 
@@ -40,13 +47,6 @@ var drawHistogram = function(d,daynumber){
 
   // console.log(d[0].quizes[0].grade)
 
-  var width = 800;
-  var height = 600;
-
-  var svg = d3.select("svg")
-              .attr("width",width)
-              .attr("height",height);
-
   var barWidth = width / bins.length;
 
   svg.selectAll("rect")
@@ -54,6 +54,7 @@ var drawHistogram = function(d,daynumber){
      .enter()
      .append("rect")
      .attr("x", function(d,i){
+       console.log("hello")
        return i * barWidth;
      })
      .attr("y", function(d){
@@ -64,6 +65,36 @@ var drawHistogram = function(d,daynumber){
        return d.length * 50;
      })
      .attr("fill","purple");
+
+  buttonUpdate(d,daynumber);
+}
+
+var updateHistogram = function(d,daynumber){
+
+  var xScale = d3.scaleLinear()
+                .domain([0,10])
+                .range([0,10]);
+
+  var binMaker = d3.histogram()
+                  .domain([0,10])
+                  .thresholds(xScale.ticks(5));
+
+  var bins = binMaker(d.map(function(element){
+    return(element.quizes[daynumber].grade)
+  }));
+
+  svg.selectAll("rect")
+     .data(bins)
+     .attr("y", function(d){
+       return height - (d.length * 50);
+     })
+     .attr("height", function(d){
+       return d.length * 50;
+     });
+
+  console.log(daynumber)
+
+  document.getElementById("dayParagraph").innerHTML = d[0].quizes[daynumber].day;
 
   buttonUpdate(d,daynumber);
 }
