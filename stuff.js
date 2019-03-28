@@ -7,7 +7,10 @@ gradesP.then(function(data){
 
 var buttonUpdate = function(d,daynumber){
   d3.select(".p").on("click",function(d){
-    
+    drawHistogram(d,daynumber+1);
+  })
+  d3.select(".p").on("click",function(d){
+    drawHistogram(d,daynumber-1);
   })
 }
 
@@ -25,7 +28,7 @@ var drawHistogram = function(d,daynumber){
                   .domain(xScale.domain())
                   .thresholds(xScale.ticks(5));
 
-  // var bins = binMaker(d.quizes[daynumber].grade);
+  //var bins = binMaker(d.quizes[daynumber].grade);
 
   // console.log(d[0].quizes[0].grade)
 
