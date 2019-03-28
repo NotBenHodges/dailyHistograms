@@ -27,9 +27,11 @@ var drawHistogram = function(d,daynumber){
 
   console.log(daynumber);
 
+  var padding = 30;
+
   var xScale = d3.scaleLinear()
                 .domain([0,10])
-                .range([0,10]);
+                .range([padding,width-padding]);
 
   /* var yScale = d3.scaleLinear()
                 .domain([0,10])
@@ -47,7 +49,7 @@ var drawHistogram = function(d,daynumber){
 
   // console.log(d[0].quizes[0].grade)
 
-  var barWidth = width / bins.length;
+  var barWidth = (width-(padding*2)) / bins.length;
 
   var xAxis = d3.axisBottom()
       //.attr("transform","translate(0," + (height - 20) + ")")
@@ -55,7 +57,9 @@ var drawHistogram = function(d,daynumber){
       .ticks(10)
 
   svg.append("g")
-      .call(xAxis)
+     .attr("class","axis")
+     .attr("transform","translate(0," + (height - 20) + ")")
+     .call(xAxis)
 
 
   svg.selectAll("rect")
@@ -64,10 +68,10 @@ var drawHistogram = function(d,daynumber){
      .append("rect")
      .attr("x", function(d,i){
        console.log("hello")
-       return i * barWidth;
+       return (i * barWidth) + padding;
      })
      .attr("y", function(d){
-       return height - (d.length * 50);
+       return height - (d.length * 50) - padding;
      })
      .attr("width", barWidth)
      .attr("height", function(d){
@@ -80,9 +84,11 @@ var drawHistogram = function(d,daynumber){
 
 var updateHistogram = function(d,daynumber){
 
+  var padding = 30;
+
   var xScale = d3.scaleLinear()
                 .domain([0,10])
-                .range([0,10]);
+                .range([padding,width-padding]);
 
   var binMaker = d3.histogram()
                   .domain([0,10])
@@ -95,7 +101,7 @@ var updateHistogram = function(d,daynumber){
   svg.selectAll("rect")
      .data(bins)
      .attr("y", function(d){
-       return height - (d.length * 50);
+       return height - (d.length * 50) - padding;
      })
      .attr("height", function(d){
        return d.length * 50;
