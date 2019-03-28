@@ -6,15 +6,19 @@ gradesP.then(function(data){
 });
 
 var buttonUpdate = function(d,daynumber){
-  d3.select(".p").on("click",function(d){
+  console.log(d);
+
+  d3.select(".n").on("click",function(e){
     drawHistogram(d,daynumber+1);
   })
-  d3.select(".p").on("click",function(d){
+  d3.select(".p").on("click",function(e){
     drawHistogram(d,daynumber-1);
   })
 }
 
 var drawHistogram = function(d,daynumber){
+
+  console.log(d);
 
   var xScale = d3.scaleLinear()
                 .domain([0,10])
@@ -59,5 +63,7 @@ var drawHistogram = function(d,daynumber){
      })
      .attr("fill","purple");
 
+  console.log(d)
 
+  buttonUpdate(d,daynumber);
 }
