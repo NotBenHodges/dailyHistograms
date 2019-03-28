@@ -28,14 +28,11 @@ var drawHistogram = function(d,daynumber){
                   .domain(xScale.domain())
                   .thresholds(xScale.ticks(5));
 
-  //var bins = binMaker(d.quizes[daynumber].grade);
+  var bins = binMaker(d.map(function(element){
+    return(element.quizes[daynumber].grade)
+  }));
 
   // console.log(d[0].quizes[0].grade)
-
-  d.map(function(element){
-    console.log(element.quizes[0].grade)
-    return(element.quizes[0].grade)
-  })
 
   var width = 800;
   var height = 600;
@@ -44,23 +41,23 @@ var drawHistogram = function(d,daynumber){
               .attr("width",width)
               .attr("height",height);
 
-  var barWidth = 30;
+  var barWidth = width / bins.length;
 
   svg.selectAll("rect")
-     .data(d)
+     .data(bins)
      .enter()
      .append("rect")
      .attr("x", function(d,i){
        return i * barWidth;
      })
-     .attr("y", d.map(function(element){
-       return height - (element.quizes[0].grade * (height/10));
-     }))
-     .attr("width",barWidth)
-     .attr("height",d.map(function(element){
-       return element.quizes[0].grade * (height/10);
-     }))
-     .attr("fill",blue);
+     .attr("y", function(d){
+       return height - (d.length * 50);
+     })
+     .attr("width", barWidth)
+     .attr("height", function(d){
+       return d.length * 50;
+     })
+     .attr("fill","purple");
 
 
 }
