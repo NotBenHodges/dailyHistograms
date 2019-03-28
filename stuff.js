@@ -73,5 +73,4 @@ var drawHistogram = function(d,daynumber){
      })
      .attr("fill","green");
 
-
 }
