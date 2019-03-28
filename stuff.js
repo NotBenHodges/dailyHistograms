@@ -18,7 +18,7 @@ var buttonUpdate = function(d,daynumber){
 
 var drawHistogram = function(d,daynumber){
 
-  console.log(d);
+  console.log(daynumber);
 
   var xScale = d3.scaleLinear()
                 .domain([0,10])
@@ -35,6 +35,8 @@ var drawHistogram = function(d,daynumber){
   var bins = binMaker(d.map(function(element){
     return(element.quizes[daynumber].grade)
   }));
+
+  console.log(bins)
 
   // console.log(d[0].quizes[0].grade)
 
@@ -62,8 +64,6 @@ var drawHistogram = function(d,daynumber){
        return d.length * 50;
      })
      .attr("fill","purple");
-
-  console.log(d)
 
   buttonUpdate(d,daynumber);
 }
