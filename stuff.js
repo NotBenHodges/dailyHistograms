@@ -33,17 +33,21 @@ var drawHistogram = function(d,daynumber){
                 .domain([0,10])
                 .range([padding,width-padding]);
 
+  var xScale4Axis = d3.scaleLinear()
+                      .domain([0,11])
+                      .range([padding,width-padding]);
+
   var yScale = d3.scaleLinear()
-                .domain([0,14])
+                .domain([0,10])
                 .range([padding,height-padding]);
 
   var yScaleReversed = d3.scaleLinear()
-                         .domain([0,14])
+                         .domain([0,10])
                          .range([height-padding,padding])
 
   var binMaker = d3.histogram()
                   .domain(xScale.domain())
-                  .thresholds(xScale.ticks(5));
+                  .thresholds(xScale.ticks(11));
 
   var bins = binMaker(d.map(function(element){
     return(element.quizes[daynumber].grade)
@@ -54,11 +58,12 @@ var drawHistogram = function(d,daynumber){
   // console.log(d[0].quizes[0].grade)
 
   var barWidth = (width-(padding*2)) / bins.length;
+  // var barWidth = 76
 
-  console.log(barWidth)
+  console.log(bins)
 
   var xAxis = d3.axisBottom()
-                .scale(xScale)
+                .scale(xScale4Axis)
                 .ticks(10)
 
   svg.append("g")
@@ -107,12 +112,12 @@ var updateHistogram = function(d,daynumber){
                  .range([padding,width-padding]);
 
   var yScale = d3.scaleLinear()
-                 .domain([0,14])
+                 .domain([0,10])
                  .range([padding,height-padding]);
 
   var binMaker = d3.histogram()
                   .domain([0,10])
-                  .thresholds(xScale.ticks(5));
+                  .thresholds(xScale.ticks(11));
 
   var bins = binMaker(d.map(function(element){
     return(element.quizes[daynumber].grade)
