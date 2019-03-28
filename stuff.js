@@ -49,6 +49,15 @@ var drawHistogram = function(d,daynumber){
 
   var barWidth = width / bins.length;
 
+  var xAxis = d3.axisBottom()
+      //.attr("transform","translate(0," + (height - 20) + ")")
+      .scale(xScale)
+      .ticks(10)
+
+  svg.append("g")
+      .call(xAxis)
+
+
   svg.selectAll("rect")
      .data(bins)
      .enter()
