@@ -13,7 +13,7 @@ gradesP.then(function(data){
 });
 
 var buttonUpdate = function(d,daynumber){
-  console.log(d);
+  // console.log(d);
 
   d3.select(".n").on("click",function(e){
     updateHistogram(d,daynumber+1);
@@ -25,7 +25,7 @@ var buttonUpdate = function(d,daynumber){
 
 var drawHistogram = function(d,daynumber){
 
-  console.log(daynumber);
+  // console.log(daynumber);
 
   var padding = 20;
 
@@ -34,11 +34,11 @@ var drawHistogram = function(d,daynumber){
                 .range([padding,width-padding]);
 
   var yScale = d3.scaleLinear()
-                .domain([0,20])
+                .domain([0,14])
                 .range([padding,height-padding]);
 
   var yScaleReversed = d3.scaleLinear()
-                         .domain([0,20])
+                         .domain([0,14])
                          .range([height-padding,padding])
 
   var binMaker = d3.histogram()
@@ -54,6 +54,8 @@ var drawHistogram = function(d,daynumber){
   // console.log(d[0].quizes[0].grade)
 
   var barWidth = (width-(padding*2)) / bins.length;
+
+  console.log(barWidth)
 
   var xAxis = d3.axisBottom()
                 .scale(xScale)
@@ -79,7 +81,7 @@ var drawHistogram = function(d,daynumber){
      .enter()
      .append("rect")
      .attr("x", function(d,i){
-       console.log("hello")
+       // console.log("hello")
        return (i * barWidth) + padding;
      })
      .attr("y", function(d){
@@ -89,21 +91,23 @@ var drawHistogram = function(d,daynumber){
      .attr("height", function(d){
        return yScale(d.length) - padding;
      })
-     .attr("fill","purple");
+     .attr("fill","purple")
+     .attr("stroke-width",3)
+     .attr("stroke","black")
 
   buttonUpdate(d,daynumber);
 }
 
 var updateHistogram = function(d,daynumber){
 
-  var padding = 30;
+  var padding = 20;
 
   var xScale = d3.scaleLinear()
                  .domain([0,10])
                  .range([padding,width-padding]);
 
   var yScale = d3.scaleLinear()
-                 .domain([0,20])
+                 .domain([0,14])
                  .range([padding,height-padding]);
 
   var binMaker = d3.histogram()
@@ -114,6 +118,8 @@ var updateHistogram = function(d,daynumber){
     return(element.quizes[daynumber].grade)
   }));
 
+  console.log(bins)
+
   svg.selectAll("rect")
      .data(bins)
      .attr("y", function(d){
@@ -123,9 +129,9 @@ var updateHistogram = function(d,daynumber){
        return yScale(d.length) - padding;
      });
 
-  console.log(daynumber)
+  // console.log(daynumber)
 
-  document.getElementById("dayParagraph").innerHTML = d[0].quizes[daynumber].day;
+  document.getElementById("dayParagraph").innerHTML = "Day " + d[0].quizes[daynumber].day;
 
   buttonUpdate(d,daynumber);
 }
