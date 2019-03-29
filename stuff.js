@@ -29,15 +29,7 @@ var drawHistogram = function(d,daynumber){
                 .domain([0,11])
                 .range([padding,width-padding]);
 
-  var xAxisScale = d3.scaleLinear()
-                      .domain([0,11])
-                      .range([padding,width-padding]);
-
   var yScale = d3.scaleLinear()
-                .domain([0,10])
-                .range([padding,height-padding]);
-
-  var yAxisScale = d3.scaleLinear()
                          .domain([0,10])
                          .range([height-padding,padding]);
 
@@ -49,10 +41,12 @@ var drawHistogram = function(d,daynumber){
     return(element.quizes[daynumber].grade)
   }));
 
+  var colors = d3.scaleOrdinal(d3.schemePaired)
+
   // var barWidth = (width-(padding*2)) / bins.length;
 
   var xAxis = d3.axisBottom()
-                .scale(xAxisScale)
+                .scale(xScale)
                 .ticks(10);
 
   svg.append("g")
@@ -61,7 +55,7 @@ var drawHistogram = function(d,daynumber){
      .call(xAxis);
 
   var yAxis = d3.axisLeft()
-                .scale(yAxisScale)
+                .scale(yScale)
                 .ticks(10);
 
   svg.append("g")
@@ -78,15 +72,17 @@ var drawHistogram = function(d,daynumber){
        return xScale(i);
      })
      .attr("y", function(d){
-       return height - yScale(d.length);
+       return yScale(d.length);
      })
      .attr("width", function(d,i){
        return xScale(i) - xScale(i-1);
      })
      .attr("height", function(d){
-       return yScale(d.length) - padding;
+       return height - yScale(d.length) - padding;
      })
-     .attr("fill","purple")
+     .attr("fill",function(d,i){
+       return colors(i);
+     })
      .attr("stroke-width",3)
      .attr("stroke","black");
 
@@ -102,10 +98,10 @@ var updateHistogram = function(d,daynumber,yScale,binMaker){
   svg.selectAll("rect")
      .data(bins)
      .attr("y", function(d){
-       return height - yScale(d.length);
+       return yScale(d.length);
      })
      .attr("height", function(d){
-       return yScale(d.length) - padding;
+       return height - yScale(d.length) - padding;
      });
 
   document.getElementById("dayParagraph").innerHTML = "Day " + d[0].quizes[daynumber].day;
