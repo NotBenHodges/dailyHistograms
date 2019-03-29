@@ -13,13 +13,13 @@ gradesP.then(function(data){
   drawHistogram(data,0);
 });
 
-var buttonUpdate = function(data,daynumber,xScale,yScale,binMaker){
+var buttonUpdate = function(data,daynumber,yScale,binMaker){
 
   d3.select(".n").on("click",function(d){
-    updateHistogram(data,daynumber+1,xScale,yScale,binMaker);
+    updateHistogram(data,daynumber+1,yScale,binMaker);
   })
   d3.select(".p").on("click",function(d){
-    updateHistogram(data,daynumber-1,xScale,yScale,binMaker);
+    updateHistogram(data,daynumber-1,yScale,binMaker);
   })
 }
 
@@ -90,10 +90,10 @@ var drawHistogram = function(d,daynumber){
      .attr("stroke-width",3)
      .attr("stroke","black");
 
-  buttonUpdate(d,daynumber,xScale,yScale,binMaker);
+  buttonUpdate(d,daynumber,yScale,binMaker);
 }
 
-var updateHistogram = function(d,daynumber,xScale,yScale,binMaker){
+var updateHistogram = function(d,daynumber,yScale,binMaker){
 
   var bins = binMaker(d.map(function(element){
     return(element.quizes[daynumber].grade)
@@ -110,5 +110,5 @@ var updateHistogram = function(d,daynumber,xScale,yScale,binMaker){
 
   document.getElementById("dayParagraph").innerHTML = "Day " + d[0].quizes[daynumber].day;
 
-  buttonUpdate(d,daynumber,xScale,yScale,binMaker);
+  buttonUpdate(d,daynumber,yScale,binMaker);
 }
