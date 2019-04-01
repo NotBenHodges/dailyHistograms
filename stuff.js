@@ -41,7 +41,9 @@ var drawHistogram = function(d,daynumber){
     return(element.quizes[daynumber].grade)
   }));
 
-  var colors = d3.scaleOrdinal(d3.schemePaired)
+  var colors = d3.scaleLinear()
+                 .domain([0,11])
+                 .range(["#DEF4C6","#1B512D"])
 
   // var barWidth = (width-(padding*2)) / bins.length;
 
